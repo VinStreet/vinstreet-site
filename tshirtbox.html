@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>T-Shirt Box – VinStreet</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Pirata+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="stylesheet.css">
+
+  <style>
+    /* Sidebar alap stílus + animáció */
+    #cart-sidebar, #sizeguide-sidebar {
+      position: fixed;
+      top: 0;
+      right: -350px;
+      width: 350px;
+      height: 100%;
+      background: #fff;
+      box-shadow: -3px 0 10px rgba(0,0,0,0.2);
+      padding: 20px;
+      transition: right 0.3s ease;
+      z-index: 1001;
+      overflow-y: auto;
+    }
+    #cart-sidebar.open, #sizeguide-sidebar.open {
+      right: 0;
+    }
+    #cart-sidebar h3, #sizeguide-sidebar h3 {
+      margin-top: 0;
+    }
+    #cart-sidebar button, #sizeguide-sidebar button {
+      margin-top: 20px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    /* Overlay */
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.2);
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    #overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Size Guide link stílus */
+    .size-guide {
+      display: inline-block;
+      margin-top: 10px;
+      text-decoration: underline;
+      color: black;
+      cursor: pointer;
+    }
+
+    /* Méretválasztás gombok stílusa */
+    .size-options button {
+      margin: 5px 3px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    .size-options button.active {
+      background-color: #000;
+      color: #fff;
+    }
+    .size-options button:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    /* FAQ stílus */
+    .faq-section {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 18px;
+      font-family: Arial, sans-serif;
+    }
+    .faq-section h2 {
+      font-size: 30px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .faq-subtitle {
+      font-size: 16px;
+      margin-bottom: 28px;
+      color: #555;
+    }
+    .faq-item {
+      margin-bottom: 14px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .faq-question {
+      width: 100%;
+      text-align: left;
+      padding: 13px 18px;
+      font-size: 16px;
+      cursor: pointer;
+      background: #f9f9f9;
+      border: none;
+      outline: none;
+    }
+    .faq-question:hover {
+      background: #eee;
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      padding: 0 18px;
+      background: #fff;
+    }
+    .faq-answer p {
+      margin: 13px 0;
+      font-size: 14px;
+    }
+    .faq-item.active .faq-answer {
+      max-height: 180px;
+    }
+
+    /* Quality section stílus */
+    .quality-section {
+      max-width: 900px;
+      margin: 50px auto;
+      text-align: center;
+    }
+    .quality-section h3 {
+      margin-bottom: 15px;
+    }
+    .quality-images img {
+      width: 120px;
+      margin: 5px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    #image-overlay {
+      display: none;
+      position: fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+    #image-overlay img {
+      max-width: 90%;
+      max-height: 90%;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <img src="images/logo2.png" alt="VinStreet Logo" class="logo">
+  <h1>VinStreet</h1>
+</header>
+
+<nav class="top-menu">
+  <a href="index.html" class="menu-button">Home</a>
+  <a href="boxok.html" class="menu-button">MysteryBoxes</a>
+  <div class="dropdown">
+    <button class="menu-button">Info ▼</button>
+    <div class="dropdown-content">
+      <a href="authenticity.html">Authenticity</a>
+      <a href="sizingandcondition.html">Sizing / Condition</a>
+      <a href="returns.html">Returns</a>
+      <a href="contact.html">Contact</a>
+      <a href="shipping.html">Shipping</a>
+    </div>
+  </div>
+  <button id="cart-button" class="menu-button">🛒 Kosár</button>
+</nav>
+
+<div id="overlay"></div>
+
+<!-- SIDEBARS -->
+<div id="cart-sidebar">
+  <h3>Kosár tartalma</h3>
+  <p>Jelenleg üres.</p>
+  <button id="close-cart">Bezárás</button>
+</div>
+
+<div id="sizeguide-sidebar">
+  <h3>Men's Size Guide (cm)</h3>
+  <table>
+    <tr><th>Size</th><th>Chest</th><th>Length</th></tr>
+    <tr><td>S</td><td>90-96</td><td>69</td></tr>
+    <tr><td>M</td><td>97-104</td><td>72</td></tr>
+    <tr><td>L</td><td>105-112</td><td>75</td></tr>
+  </table>
+  <button id="close-sizeguide">Bezárás</button>
+</div>
+
+<!-- MAIN PRODUCT -->
+<main>
+<section class="product-container">
+
+  <div class="product-image">
+    <div class="main-small-wrapper">
+      <img id="mainImage" src="images/tshirtbox/stussy.png" class="main-image">
+      <div class="small-images">
+        <img src="images/tshirtbox/supreme.png" class="small-img">
+        <img src="images/tshirtbox/charhart.png" class="small-img">
+      </div>
+    </div>
+  </div>
+
+  <div class="product-details-block">
+    <h2 class="product-title">T-Shirt Box</h2>
+    <p class="price">199,00 RON</p>
+
+    <p class="shipping-info">
+      Taxes included. <a href="shipping.html" class="shipping-link">Shipping</a> calculated at checkout.
+    </p>
+
+    <div class="size-options">
+      <button>XS</button>
+      <button>S</button>
+      <button>M</button>
+      <button>L</button>
+      <button>XL</button>
+      <a href="#" id="open-sizeguide" class="size-guide">Size Guide</a>
+    </div>
+
+    <button class="add-to-cart">Add to Cart</button>
+
+    <div class="accordion-container">
+
+      <div class="accordion-item">
+        <button class="accordion-button">Description <span class="accordion-arrow">▼</span></button>
+        <div class="accordion-content">
+          <p>
+            One piece. One statement.
+            This mystery box includes one handpicked vintage T-shirt.
+            Choose your size and we handle the surprise.
+          </p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-button">Authenticity <span class="accordion-arrow">▼</span></button>
+        <div class="accordion-content">
+          <p>All items are 100% authentic and professionally verified.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-button">Condition <span class="accordion-arrow">▼</span></button>
+        <div class="accordion-content">
+          <p>Grade A vintage condition. Cleaned and ready to wear.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="wish-note">
+  <p class="wish-title">One box. One tee. One vibe.</p>
+  <p class="wish-text">Tell us your preferred brand or style at checkout.</p>
+</div>
+
+<!-- BRAND STRIP -->
+<section class="brand-strip">
+  <div class="brand-track">
+    <img src="images/brand/p1.png" alt="Nike">
+    <img src="images/brand/p2.png" alt="Nike" class="NNN">
+    <img src="images/brand/p3.png" alt="Nike">
+    <img src="images/brand/p4.png" alt="Nike">
+    <img src="images/brand/p5.png" alt="Nike">
+    <img src="images/brand/p7.png" alt="Nike" class="NNM">
+    <img src="images/brand/p8.png" alt="Nike" class="NNP">
+    <img src="images/brand/p9.png" alt="Nike" class="NNO">
+    <img src="images/brand/p10.png" alt="Nike">
+    <img src="images/brand/p6.png" alt="Nike">
+
+    <!-- duplikáljuk a folyamatosság miatt -->
+    <img src="images/brand/p1.png" alt="Nike">
+    <img src="images/brand/p2.png" alt="Nike" class="NNN">
+    <img src="images/brand/p3.png" alt="Nike">
+    <img src="images/brand/p4.png" alt="Nike">
+    <img src="images/brand/p5.png" alt="Nike">
+    <img src="images/brand/p7.png" alt="Nike" class="NNM">
+    <img src="images/brand/p8.png" alt="Nike" class="NNP">
+    <img src="images/brand/p9.png" alt="Nike" class="NNO">
+    <img src="images/brand/p10.png" alt="Nike">
+    <img src="images/brand/p6.png" alt="Nike">
+	
+	<!-- triplikáljuk a folyamatosság miatt -->
+    <img src="images/brand/p1.png" alt="Nike">
+    <img src="images/brand/p2.png" alt="Nike" class="NNN">
+    <img src="images/brand/p3.png" alt="Nike">
+    <img src="images/brand/p4.png" alt="Nike">
+    <img src="images/brand/p5.png" alt="Nike">
+    <img src="images/brand/p7.png" alt="Nike" class="NNM">
+    <img src="images/brand/p8.png" alt="Nike" class="NNP">
+    <img src="images/brand/p9.png" alt="Nike" class="NNO">
+    <img src="images/brand/p10.png" alt="Nike">
+    <img src="images/brand/p6.png" alt="Nike">
+  </div>
+</section>
+
+
+<!-- FAQ SECTION -->
+<section class="faq-section">
+  <h2>FAQ's</h2>
+  <p class="faq-subtitle">Shop with complete confidence</p>
+
+  <div class="faq-item">
+    <button class="faq-question">Do you offer returns?</button>
+    <div class="faq-answer">
+      <p>Yes, we accept returns within 14 days of purchase. Items must be in original condition.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">How long does shipping take?</button>
+    <div class="faq-answer">
+      <p>Shipping usually takes 2-5 business days, depending on your location.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">Do you offer Europe-wide shipping?</button>
+    <div class="faq-answer">
+      <p>Yes, we ship to most European countries. Shipping fees may vary.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">Are the pieces Authentic?</button>
+    <div class="faq-answer">
+      <p>All pieces are 100% authentic and verified by our team.</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUALITY CHECK -->
+<section class="quality-section">
+  <h3>Quality Check</h3>
+  <p class="quality-text">
+    Every piece is carefully inspected before shipping. We check authenticity, condition,
+    stitching, and overall wear to make sure you receive a quality vintage item.
+  </p>
+
+  <div class="quality-images">
+    <img src="images/tshirtbox/quality/1.png" >
+    <img src="images/tshirtbox/quality/2.png" >
+    <img src="images/tshirtbox/quality/3.png" >
+    <img src="images/tshirtbox/quality/4.png" >
+    <img src="images/tshirtbox/quality/5.png" >
+    <img src="images/tshirtbox/quality/6.png" >
+  </div>
+</section>
+
+<!-- FOOTER -->
+<section class="footer-links">
+  <a href="sizingandcondition.html">SIZING / CONDITION</a>
+  <a href="terms.html">TERMS & CONDITIONS</a>
+  <a href="#">PRIVACY POLICY</a>
+  <a href="shipping.html">SHIPPING POLICY</a>
+  <a href="#">REFUND POLICY</a>
+</section>
+
+<footer>
+  <p>&copy; 2026 VinStreet</p>
+  <p>Kapcsolat: info@vinstreet.eu</p>
+</footer>
+
+<!-- IMAGE OVERLAY -->
+<div id="image-overlay"><img src="" alt="Preview"></div>
+
+<!-- JS -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const overlay = document.getElementById('overlay');
+
+  // CART SIDEBAR
+  const cartButton = document.getElementById('cart-button');
+  const cartSidebar = document.getElementById('cart-sidebar');
+  const closeCart = document.getElementById('close-cart');
+  cartButton.addEventListener('click', () => {
+    cartSidebar.classList.add('open');
+    overlay.classList.add('active');
+  });
+  closeCart.addEventListener('click', () => {
+    cartSidebar.classList.remove('open');
+    overlay.classList.remove('active');
+  });
+
+  // SIZE BUTTONS
+  const sizeButtons = document.querySelectorAll('.size-options button');
+  sizeButtons.forEach(btn => {
+    const val = btn.textContent;
+    if (!['S','M','L'].includes(val)) {
+      btn.disabled = true;
+      btn.style.cursor = 'not-allowed';
+    }
+    btn.addEventListener('click', () => {
+      if (!btn.disabled) {
+        sizeButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+    });
+  });
+
+  // SIZE GUIDE SIDEBAR
+  const sizeGuideButton = document.getElementById('open-sizeguide');
+  const sizeGuideSidebar = document.getElementById('sizeguide-sidebar');
+  const closeSizeGuide = document.getElementById('close-sizeguide');
+  sizeGuideButton.addEventListener('click', () => {
+    sizeGuideSidebar.classList.add('open');
+    overlay.classList.add('active');
+  });
+  closeSizeGuide.addEventListener('click', () => {
+    sizeGuideSidebar.classList.remove('open');
+    overlay.classList.remove('active');
+  });
+
+  // Overlay click bezárás
+  overlay.addEventListener('click', () => {
+    cartSidebar.classList.remove('open');
+    sizeGuideSidebar.classList.remove('open');
+    overlay.classList.remove('active');
+  });
+
+  // ACCORDION
+  const accButtons = document.querySelectorAll('.accordion-button');
+  accButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.classList.toggle('active');
+      const content = btn.nextElementSibling;
+      if (content.style.maxHeight) content.style.maxHeight = null;
+      else content.style.maxHeight = content.scrollHeight + "px";
+    });
+  });
+
+  // FAQ
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      item.classList.toggle('active');
+    });
+  });
+
+  // QUALITY IMAGE OVERLAY
+  const qualityImages = document.querySelectorAll('.quality-images img');
+  const overlayImgDiv = document.getElementById('image-overlay');
+  const overlayImg = overlayImgDiv.querySelector('img');
+
+  qualityImages.forEach(img => {
+    img.addEventListener('click', () => {
+      overlayImg.src = img.src;
+      overlayImgDiv.style.display = 'flex';
+    });
+  });
+
+  overlayImgDiv.addEventListener('click', () => {
+    overlayImgDiv.style.display = 'none';
+  });
+
+  // TOP MENU SCROLL FIX
+  const topMenu = document.querySelector('.top-menu');
+  let lastScroll = window.scrollY;
+  window.addEventListener('scroll', () => {
+    let currentScroll = window.scrollY;
+    if (currentScroll < lastScroll && currentScroll > 70) {
+      topMenu.style.position = 'fixed';
+      topMenu.style.top = '0';
+      topMenu.style.left = '0';
+      topMenu.style.width = '100%';
+      topMenu.style.zIndex = '1000';
+      topMenu.style.transition = 'top 0.3s';
+    } else {
+      topMenu.style.position = 'absolute';
+      topMenu.style.top = '70px';
+    }
+    lastScroll = currentScroll;
+  });
+});
+
+// IMAGE HOVER
+const mainImage = document.getElementById('mainImage');
+const smallImages = document.querySelectorAll('.small-img');
+
+mainImage.addEventListener('mouseenter', () => {
+  mainImage.src = 'images/tshirtbox/wip.png';
+});
+mainImage.addEventListener('mouseleave', () => {
+  mainImage.src = 'images/tshirtbox/stussy.png';
+});
+
+smallImages[0].addEventListener('mouseenter', () => {
+  smallImages[0].src = 'images/tshirtbox/essentials.png';
+});
+smallImages[0].addEventListener('mouseleave', () => {
+  smallImages[0].src = 'images/tshirtbox/supreme.png';
+});
+
+smallImages[1].addEventListener('mouseenter', () => {
+  smallImages[1].src = 'images/tshirtbox/hellstar.png';
+});
+smallImages[1].addEventListener('mouseleave', () => {
+  smallImages[1].src = 'images/tshirtbox/charhart.png';
+});
+// BRAND STRIP
+const track = document.getElementById('brandTrack');
+let pos = 0;
+const speed = 1; // px per frame
+
+function scrollTrack() {
+  pos -= speed;
+  if (pos <= -track.scrollWidth / 2) pos = 0;
+  track.style.transform = `translateX(${pos}px)`;
+  requestAnimationFrame(scrollTrack);
+}
+
+scrollTrack();
+</script>
+
+</body>
+</html>

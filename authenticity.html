@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VinStreet – Authenticity</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Pirata+One&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body class="authenticity-page">
+
+  <!-- HEADER -->
+  <header>
+    <img src="images/logo2.png" alt="VinStreet Logo" class="logo">
+    <h1>VinStreet</h1>
+  </header>
+
+  <!-- TOP MENU -->
+  <div class="top-menu">
+    <a href="index.html" class="menu-button">Home</a>
+    <a href="boxok.html" class="menu-button">MysteryBoxes</a>
+
+    <div class="dropdown">
+      <button class="menu-button">Info ▼</button>
+      <div class="dropdown-content">
+        <a href="authenticity.html">Authenticity</a>
+        <a href="sizingandcondition.html">Sizing / Condition</a>
+        <a href="returns.html">Returns</a>
+        <a href="contact.html">Contact</a>
+        <a href="shipping.html">Shipping</a>
+      </div>
+    </div>
+
+    <button id="cart-button" class="menu-button">🛒 Cart</button>
+  </div>
+
+  <!-- KOSÁR SIDEBAR -->
+  <div id="cart-sidebar">
+    <h3>Cart Contents</h3>
+    <p>Currently empty.</p>
+    <button id="close-cart">Close</button>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="boxes-page">
+    <section class="product-info centered-text">
+      <h2>AUTHENTICITY</h2>
+      <p>At VinStreet, authenticity is our top priority. We source our clothing from reliable channels: sellers on Vinted, official suppliers, and large outlet stores. Every item is genuine, high-quality, and carefully checked, so our customers can be confident in their purchase.</p>
+
+      <h3>Strict Inspection</h3>
+      <p>Each garment is thoroughly examined by our experts, who check labels, stitching patterns, material quality, and design details. The unique wear patterns and natural aging of vintage pieces also play an important role in ensuring authenticity.</p>
+
+      <h3>Why Authenticity Matters</h3>
+      <p>Authenticity not only preserves the value of the item but also guarantees that you are wearing a genuine, true vintage piece. We want our customers to wear VinStreet clothing proudly, knowing that every piece is both stylish and authentic.</p>
+
+      <h3>Our Promise</h3>
+      <p>At VinStreet, every garment we sell is 100% authentic. Our reliable sources and expert inspections ensure that our customers always receive real, high-quality vintage items. For us, authenticity is not just a promise—it’s a guarantee.</p>
+    </section>
+  </main>
+
+  <!-- FOOTER LINKS -->
+  <section class="footer-links">
+  <a href="sizingandcondition.html">SIZING / CONDITION</a>
+  <a href="terms.html">TERMS & CONDITIONS</a>
+  <a href="privacy.html">PRIVACY POLICY</a>
+  <a href="shipping.html">SHIPPING POLICY</a>
+  <a href="refund.html">REFUND POLICY</a>
+</section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 VinStreet</p>
+    <p>Contact: info@vinstreet.eu</p>
+  </footer>
+
+  <!-- JS -->
+  <script>
+    const cartButton = document.getElementById('cart-button');
+    const cartSidebar = document.getElementById('cart-sidebar');
+    const closeCart = document.getElementById('close-cart');
+
+    cartButton.addEventListener('click', () => {
+      cartSidebar.classList.add('open');
+    });
+
+    closeCart.addEventListener('click', () => {
+      cartSidebar.classList.remove('open');
+    });
+  </script>
+
+</body>
+</html>

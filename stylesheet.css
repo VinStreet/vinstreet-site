@@ -1,0 +1,1254 @@
+body {
+  font-family: "Lexend", sans-serif;
+}
+
+header h1 {
+  font-family: "Pirata One", system-ui;
+}
+
+section h2,
+section h3,
+section p {
+  font-family: "Montserrat", sans-serif;
+}
+header {
+  position: relative;       /* a kosár gombhoz kell */
+  background: #222;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;       /* h1 középre */
+}
+header h1 {
+  font-family: "Pirata One", system-ui;
+  
+}
+
+* { /*Hogy erjenek ossze a dolgok*/
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+header .logo {
+  position: absolute; /* headeren belül balra */
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;        /* logó mérete */
+  height: 50px;
+  border-radius: 50%; /* kerek keret */
+  border: 2px solid #fff; /* fehér keret */
+}
+#cart-button {
+  position: absolute; 
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #222;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  cursor: pointer;
+  font-size: 16px;
+  z-index: 1100; /* a többi fölött marad */
+}
+
+/* Top-menu gombok középre, kosár jobbra */
+
+.top-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 10px 0;
+  position: absolute; /* header alá */
+  top: 70px;      
+  left: 0;
+  width: 100%;
+  z-index: 50;
+  margin-top: 10px;
+}
+
+.top-menu .menu-button {
+  background-color: #222;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+  box-shadow: 0 2px 6px rgba(255,255,255,0.2); /* alap árnyék */
+}
+
+.top-menu .menu-button:hover {
+  box-shadow: 0 6px 16px rgba(255,255,255,0.5); /* erősebb fényes hatás */
+  transform: translateY(-1px);
+}
+
+
+/* Kosár gomb és dropdown gombok is öröklik a stílust */
+.top-menu #cart-button,
+.top-menu .dropdown > .menu-button {
+  /* ugyanaz, semmi extra nem kell */
+}
+
+
+.menu-button {
+  background-color: #222;
+  color: #fff;
+  padding: 8px 15px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Kosár sidebar */
+#cart-sidebar {
+  position: fixed;
+  top: 0;
+  right: -390px;  /* alapból a képernyőn kívül van */
+  width: 350px;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.95); /* kicsit átlátszó */
+  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  padding: 20px;
+  transition: right 0.3s ease;
+  z-index: 1000;
+}
+
+/* Sidebar nyitott állapot */
+#cart-sidebar.open {
+  right: 0;
+}
+#cart-sidebar h3,
+#cart-sidebar p {
+  display: block;
+}
+
+/* Sidebar gomb */
+#cart-sidebar button {
+  margin-top: 20px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+
+/* Hover-effekt a linkeknek */
+.dropdown-content a:hover {
+  background-color: #333;     /* kicsit világosabb fekete hoverkor */
+  box-shadow: 0 4px 12px rgba(255,255,255,0.3); /* fényesebb hatás hoverkor */
+}
+.product { border:1px solid #ccc;
+ padding:10px;
+ width:200px;
+ text-align:center; }
+.product img { width:100%;
+ display:block;
+ margin-bottom:10px; }
+.info-bar { background:#444;
+ color:#fff;
+ text-align:center;
+ padding:10px 0;
+ font-size:14px; }
+footer { background:#222;
+ color:#fff;
+ text-align:center;
+ padding:10px; }
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-right: 10px; /* kis távolság a Főoldal linkhez */
+}
+
+#search-toggle {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+#search-input {
+  position: absolute;
+  top: 100%; /* alatta jelenik meg */
+  left: 0;
+  width: 200px;
+  padding: 5px 10px;
+  margin-top: 5px;
+  display: none; /* alapból rejtett */
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  z-index: 100;
+}
+
+/* Megjelenítés, ha aktív */
+#search-input.active {
+  display: block;
+}
+/* Dropdown container */
+/* Dropdown container */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown tartalom */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;          /* közvetlenül a gomb alatt */
+  left: 0;
+  background-color: #222;
+  width: 180px;       /* kocka szélessége */
+  z-index: 100;
+  flex-direction: column;
+  border-radius: 5px; /* opcionális, kicsit szebb */
+}
+
+/* Dropdown linkek */
+.dropdown-content a {
+  color: #fff;
+  padding: 10px 15px;   /* nagyobb padding = nagyobb kocka */
+  text-decoration: none;
+  display: block;
+  white-space: nowrap;   /* a szavak ne törjenek sorba */
+  font-family: "Lexend", sans-serif; /* egységes betű */
+}
+
+/* Hover vagy gombnyomásra megjelenik */
+.dropdown:hover .dropdown-content {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hover effekt a linkeknek */
+.dropdown-content a:hover {
+  background-color: #444;
+}
+
+/* Termékek szekció */
+.products {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 60px;  /* csak vízszintes padding, nincs függőleges */
+  background: transparent;
+}
+.product {
+  border: 1px solid #ccc;
+  padding: 20px;          /* belső tér nagyobb */
+  width: 480px;           /* KOCKA SZÉLESSEBB */
+  min-height: 480px;      /* KOCKA MAGASABB */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 30px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+.product img {
+  width: 100%;
+  height: 470px;          /* fix magasság */
+  object-fit: cover;     /* szépen vágja */
+  margin-bottom: 15px;
+}
+
+.footer-links {
+  background-color: #222;
+  text-align: center;
+  padding: 25px 0;   /* EZ vastagítja */
+  margin: 0;         /* NINCS rés alatta/fölötte */
+}
+
+.footer-links a {
+  color: #ccc;
+  text-decoration: none;
+  margin: 0 10px;
+  font-size: 13px;
+}
+
+.footer-links a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+  footer {
+  background-color: #222;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+  margin: 0;        /* EZ FONTOS */
+  font-family: "Lexend", sans-serif !important;
+}
+
+.hero {
+  min-height: 100vh;                 /* magas, látványos */
+  background-image: url("images/hatter/hatter.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+  text-align: center;
+  padding: 40px;
+  padding-top: 160px;
+
+  background-color: #111; /* ha a kép nem tölt be */
+}
+.hero h2,
+.hero p {
+  background: rgba(0,0,0,0.5);
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+/* Boxok oldal main-je, hogy a footer mindig lent legyen */
+main {
+  min-height: 50vh; /* vagy több, ha többet akarsz görgetni */
+  display: flex;
+  flex-direction: column;
+}
+.brand-strip {
+  width: 100%;
+  overflow: hidden;
+  background: #111;
+  padding: 30px 0;
+  background: #fff;
+}
+
+.brand-track {
+  display: flex;
+  width: max-content;
+  animation: scrollBrands 25s linear infinite;
+}
+
+.brand-track img {
+  height: 40px;
+  margin: 0 40px;
+  opacity: 0.85;
+  transition: opacity 0.3s;
+}
+
+.brand-track img:hover {
+  opacity: 1;
+}
+
+.brands-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;         /* kis távolság a képek között */
+  overflow-x: auto;  /* ha túl sok kép, vízszintesen lehet görgetni */
+  padding: 20px 0;
+}
+
+.brands-container img {
+  height: 50px;      /* alapméret minden képnek */
+  transition: all 0.3s ease;
+}
+
+/* csak a nagyobb kép */
+.NNP {
+  height: 120px;      /* nagyobb kép */
+}
+
+/* ha akarsz, a kisebb extra képek is egyedi magasság */
+.NNN, .NNM, .NNO {
+  height: 80px;
+}
+
+
+/* Animáció */
+@keyframes scrollBrands {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Boxok oldal háttér átmenet */
+.boxes-page {
+  min-height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #eaeaea 25%,
+    #444 60%,
+    #222 100%
+  );
+  padding: 60px 0;
+}
+
+  height: 120px; /* ez szabályozza milyen hosszú a fade */
+  background: linear-gradient(
+    to bottom,
+    rgba(34,34,34,0) 0%,
+    rgba(34,34,34,0.6) 50%,
+    #222 100%
+  );
+}
+
+
+
+/* Authenticity *//* Authenticity *//* Authenticity *//* Authenticity *//* Authenticity *//* Authenticity */
+.info-page {
+  min-height: 60vh;
+  padding: 60px 20px;
+  background: #f5f5f5;
+}
+
+.info-hero {
+  text-align: center;
+  background: #222;
+  color: #fff;
+  padding: 40px 20px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+}
+
+.info-hero h2 {
+  font-family: "Pirata One", system-ui;
+  font-size: 36px;
+}
+
+.info-content h3 {
+  margin-top: 20px;
+  color: #222;
+}
+
+.info-content p {
+  margin: 10px 0 20px 0;
+  line-height: 1.6;
+  color: #333;
+}
+.centered-text {
+  max-width: 900px;        /* ne legyen túl széles a szöveg */
+  margin: 80px auto;       /* fent-lent nagy távolság, középre igazítás */
+  text-align: center;       /* szöveg középre */
+  line-height: 1.8;         /* légiesebb sorok */
+  padding: 0 20px;          /* mobilon is legyen belső margó */
+}
+
+.centered-text h2 {
+  font-size: 36px;
+  margin-bottom: 30px;
+}
+
+.centered-text h3 {
+  font-size: 24px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.centered-text p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+/* Csak az authenticity oldalon ne legyen átmenet a main/boxes-page-nek */
+.authenticity-page .boxes-page {
+    background: none;
+    background-color: #fff; /* sima fehér háttér */
+}
+/* Csak a sizing oldalon ne legyen átmenet a main/boxes-page-nek */
+.sizing-page .boxes-page {
+    background: none;
+    background-color: #fff; /* sima fehér háttér */
+}
+
+/* Középre igazított szöveg nagy margóval */
+.sizing-page .centered-text {
+  max-width: 900px;
+  margin: 80px auto;
+  text-align: center;
+  line-height: 1.8;
+  padding: 0 20px;
+}
+
+/* Sizing and Condition *//* Sizing and Condition *//* Sizing and Condition *//* Sizing and Condition *//* Sizing and Condition */
+.sizing-page .centered-text h2 {
+  font-size: 36px;
+  margin-bottom: 30px;
+}
+
+.sizing-page .centered-text h3 {
+  font-size: 24px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.sizing-page .centered-text p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+/* Returns *//* Returns *//* Returns *//* Returns *//* Returns *//* Returns *//* Returns *//* Returns *//* Returns *//* Returns */
+/* Sima fehér háttér csak a Returns oldal main-jére */
+.returns-page .boxes-page {
+    background: #fff;
+}
+
+/* Shipping *//* Shipping *//* Shipping *//* Shipping *//* Shipping *//* Shipping *//* Shipping *//* Shipping *//* Shipping *//* Shipping */
+.shipping-page .boxes-page {
+    background: #fff;
+}
+
+/* Contact *//* Contact *//* Contact *//* Contact *//* Contact *//* Contact *//* Contact *//* Contact *//* Contact *//* Contact */
+.contact-page .boxes-page {
+  background: #fff;
+}
+
+/* Contact kép */
+.contact-image {
+  width: 100%;
+  max-width: 800px;
+  margin: 40px auto;
+  display: block;
+  border-radius: 20px;
+}
+
+/* Contact form */
+.contact-form {
+  max-width: 700px;
+  margin: 40px auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 12px 15px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-family: "Lexend", sans-serif;
+}
+
+.contact-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.contact-form button {
+  margin-top: 10px;
+  padding: 14px;
+  font-size: 16px;
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.contact-form button:hover {
+  background: #444;
+}
+.contact-page .boxes-page {
+    background: none;
+    background-color: #fff; /* sima fehér háttér */
+}
+.contact-form select {
+  padding: 12px 15px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-family: "Lexend", sans-serif;
+  background-color: #fff;
+}
+/* Quarterzipbox *//* Quarterzipbox *//* Quarterzipbox *//* Quarterzipbox *//* Quarterzipbox *//* Quarterzipbox *//* Quarterzipbox */
+/* H1 címsorok körvonal */
+.product-info h1 {
+  font-family: "Pirata One", system-ui;
+  font-size: 36px;
+  margin-bottom: 10px;
+  color: #fff;
+  -webkit-text-stroke: 1px #000; /* Chrome, Safari */
+  text-stroke: 1px #000;         /* jövőbeli szabvány */
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.6); /* extra kiemelés minden böngészőben */
+}
+
+/* Ár körvonal */
+.price {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  -webkit-text-stroke: 0.8px #000;
+  text-stroke: 0.8px #000;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+}
+
+/* Címsorok */
+.product-info h1 {
+  font-family: "Pirata One", system-ui;
+  font-size: 36px;
+  margin-bottom: 10px;
+  color: #222; /* sötét szöveg világos háttéren */
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.4); /* finom árnyék */
+}
+
+/* Ár */
+.price {
+  font-size: 24px;
+  font-weight: 700;
+  color: #222;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Gomb */
+.add-to-cart {
+  font-family: "Lexend", sans-serif;
+  appearance: none;
+  -webkit-appearance: none;
+
+  background-color: #111;
+  color: #fff;
+  border: none;
+  padding: 14px 22px;
+  font-size: 16px;
+  font-weight: 600;
+
+  border-radius: 10px;
+  width: 100%;
+  max-width: 260px;
+
+  cursor: pointer;
+  display: inline-block;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: all 0.25s ease;
+}
+
+
+
+.add-to-cart:hover {
+  background-color: #333;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+
+.product-blocks {
+  display: flex;
+  gap: 20px; /* térköz a blokkok között */
+  justify-content: center;
+  flex-wrap: wrap; /* mobilon egymás alá kerül */
+  margin: 40px 0;
+}
+
+.block {
+  border: 2px solid #222; /* fekete keret */
+  border-radius: 15px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+  flex: 1 1 400px; /* minimum 400px szélesség */
+  max-width: 500px;
+  text-align: center;
+}
+
+.image-block img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.text-block h2 {
+  font-family: "Pirata One", system-ui;
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+.text-block p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.text-block .price {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 15px 0;
+}
+
+.text-block .add-to-cart {
+  background-color: #222;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.text-block .add-to-cart:hover {
+  background-color: #444;
+}
+.product-container {
+  display: flex;
+  gap: 60px;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 80px 20px;
+}
+
+.product-image img {
+  width: 420px;
+  border-radius: 12px;
+}
+
+.product-details {
+  max-width: 400px;
+  text-align: left;
+}
+
+.product-title {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.price {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+.size-options {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.size-options button {
+  width: 50px;
+  height: 40px;
+  border: 1px solid #222;
+  background: #fff;
+  cursor: pointer;
+  font-family: "Lexend", sans-serif;
+}
+
+.size-options button.active,
+.size-options button:hover {
+  background: #222;
+  color: #fff;
+}
+
+.add-to-cart {
+  background: #222;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  cursor: pointer;
+}
+.shipping-info {
+  font-size: 0.85rem; /* kisebb betűméret */
+  color: #555;        /* halvány szín */
+}
+
+.shipping-info .shipping-link {
+  color: #222;        /* sötétebb, kiemelt szín */
+  text-decoration: underline; /* csak a link aláhúzott */
+}
+
+.shipping-info .shipping-link:hover {
+  color: #000;        /* hover-effekt */
+}
+#sizeguide-sidebar {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 350px;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  padding: 20px;
+  transition: right 0.3s ease;
+  z-index: 1000;
+  overflow-y: auto;
+}
+.shipping-info {
+  font-size: 0.9rem;
+  margin-bottom: 1rem; /* távolság a size guide linkig */
+}
+
+.size-guide {
+  display: inline-block;
+  margin-bottom: 1rem; /* távolság a méretgombokig */
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 0.85rem;
+}
+
+.size-options button {
+  margin-right: 0.5rem; /* több hely a gombok között */
+  padding: 0.5rem 0.8rem;
+}
+#sizeguide-sidebar.open {
+  right: 0;
+}
+
+#sizeguide-sidebar h3 {
+  margin-top: 0;
+}
+
+#sizeguide-sidebar table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+#sizeguide-sidebar th, #sizeguide-sidebar td {
+  border: 1px solid #ccc;
+  padding: 6px 8px;
+  text-align: center;
+}
+
+#sizeguide-sidebar button {
+  margin-top: 15px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+
+/* Accordion stílus - termékoldalhoz *//* Accordion stílus - termékoldalhoz *//* Accordion stílus - termékoldalhoz *//* Accordion stílus - termékoldalhoz */
+.accordion-container {
+  margin-top: 15px;
+  width: 100%;
+}
+
+.accordion-item {
+  border-top: 1px solid #ddd;
+}
+
+/* Első itemnél nincs vonal */
+.accordion-item:first-child {
+  border-top: none;
+}
+
+.accordion-button {
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.accordion-button:hover {
+  color: #333;
+}
+
+.accordion-button.active {
+  font-weight: 600;
+}
+
+/* Nyíl */
+.accordion-arrow {
+  transition: transform 0.3s ease;
+}
+
+/* Nyíl forgatása ha nyitva van */
+.accordion-button.active .accordion-arrow {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  padding: 0 12px;
+}
+
+.accordion-content p {
+  margin: 6px 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #444; /* sötétszürke, háttér nélkül */
+}
+
+/* Wrapper a fő és a két közepes képnek */
+/* ===== PRODUCT LAYOUT FIX ===== */
+
+.product-container {
+  display: flex;                       /* képek és infó egymás mellett */
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 50px;                           /* pontos távolság a képek és az info blokk között */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  margin-top: 120px; /* növeld a távolságot a top-menu gombokhoz képest */
+}
+.faq-section {
+  margin-bottom: 150px !important;
+}
+.quality-section {
+  margin-top: 150px !important;
+}
+
+/* Bal oldal – képek */
+.product-image {
+  flex: 0 0 auto;
+}
+
+/* Fő + kis képek wrapper */
+.main-small-wrapper {
+  display: flex;
+  gap: 20px;                           /* fő kép és kis képek közti távolság */
+}
+
+/* Fő kép */
+.main-image {
+  width: 250px;
+  height: 510px;
+  object-fit: cover;
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 4px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.main-image:hover {
+  transform: scale(1.02);               /* hoverkor kicsit “nagyobb” */
+  box-shadow: 0 4px 0 #ccc, 0 6px 0 #aaa; /* árnyék emelkedés hoverkor */
+}
+
+/* Kis képek konténere */
+.small-images {
+  display: flex;
+  flex-direction: column;               /* egymás alá */
+  gap: 10px;                             /* távolság a két kis kép között */
+  width: 300px;                          /* fix szélesség a kis képeknek */
+  height: 400px;                         /* fix magasság a konténernek */
+}
+
+/* Kis képek */
+.small-images img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 4px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.small-images img:hover {
+  transform: scale(1.03);               /* hoverkor kicsit “emelkedik” */
+  box-shadow: 0 4px 0 #ccc, 0 6px 0 #aaa;
+}
+
+/* Jobb oldal – info blokk */
+.product-details-block {
+  flex: 0 0 350px;                        /* fix szélesség */
+  background: #fff;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+/* Cím és ár */
+.product-details-block h3 {
+  font-size: 26px;
+  font-weight: 800;
+  color: #000;
+  margin-top: 0;
+}
+.price {
+  font-family: inherit;   /* az oldal alap fontja */
+  font-weight: normal;    /* normál vastagság */
+  font-size: 24px;        /* ha szeretnéd, fix méret */
+  color: #111;            /* alap szín */
+  text-shadow: none !important; /* árnyék eltávolítása */
+}
+.small-images img,
+.main-image {
+  border-radius: 6px;
+  border: none;
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.8),  /* felső világos kiemelés */
+              inset 0 -2px 4px rgba(0,0,0,0.1),        /* alsó árnyék */
+              0 3px 6px rgba(0,0,0,0.15);             /* külső enyhe árnyék */
+}
+.wish-note {
+  margin-top: 18px;
+  padding: 10px 16px;
+  text-align: center;
+  background-color: #fff;
+
+  /* CSAK OLDALT */
+  border-left: 3px solid #ddd;
+  border-right: 3px solid #ddd;
+}
+
+.wish-title {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 4px;
+  letter-spacing: 0.4px;
+}
+
+.wish-text {
+  font-size: 13px;
+  color: #666;
+}
+.quality-section {
+  max-width: 900px;
+  margin: 70px auto 40px;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.quality-section h3 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.quality-text {
+  font-size: 15px;
+  color: #555;
+  max-width: 700px;
+  margin: 0 auto 30px;
+  line-height: 1.6;
+}
+
+/* Képek sorban */
+.quality-images {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.quality-images img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+}
+
+/* Overlay teljes képernyőn */
+#image-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85); /* sötét háttér */
+  display: none; /* alapból rejtett */
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Nagyított kép */
+#image-overlay img {
+  max-width: 90vw;   /* képernyő 90%-áig */
+  max-height: 90vh;  /* magasságban is 90%-ig */
+  width: auto;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  cursor: zoom-out;   /* kattintással bezárható */
+  transition: transform 0.3s ease;
+}
+
+/* Kis képek hover effektje */
+.quality-images img:hover {
+  transform: scale(1.08);
+  transition: transform 0.25s ease;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+.top-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: transparent;
+}
+
+/* ===== SNEAKERBOX LAYOUT ===== *//* ===== SNEAKERBOX LAYOUT ===== *//* ===== SNEAKERBOX LAYOUT ===== *//* ===== SNEAKERBOX LAYOUT ===== *//* ===== SNEAKERBOX LAYOUT ===== *//* ===== SNEAKERBOX LAYOUT ===== *//* ===== SNEAKERBOX LAYOUT ===== */
+.product-container {
+  display: flex;
+  justify-content: center;   /* középre az egész blokk */
+  align-items: flex-start;
+  gap: 0px;                 /* térköz a nagy és kis képek között */
+  max-width: 1400px;
+  width: 100%;
+  margin: 120px auto 0;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+/* Fő + kis képek wrapper */
+.main-small-wrapper {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  overflow: visible;         /* engedi, hogy ne vágja a képet */
+}
+
+/* Fő kép */
+.main-small-wrapper .main-image {
+  width: 45vw;               /* reszponzív, mindig látszik */
+  max-width: 476px;          /* sose legyen túl nagy */
+  height: auto;
+  object-fit: contain;       /* teljes kép látszik */
+  border-radius: 8px;
+  background: #fff;
+  padding: 4px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* Kis képek oszlopa */
+.main-small-wrapper .small-images {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex-shrink: 0;           /* ne zsugorodjanak */
+}
+
+/* Kis képek */
+.main-small-wrapper .small-images img {
+  width: 12vw;               /* reszponzív, mindig látszik */
+  max-width: 300px;
+  height: auto;              /* megtartja az arányt */
+  object-fit: contain;
+  border-radius: 10px;
+  background: #fff;
+  padding: 4px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.main-small-wrapper .small-images img:hover {
+  transform: scale(1.03);
+}
+/* Kis képek hover hatás eltávolítása */
+.main-small-wrapper .small-images img:hover {
+  transform: none !important;   /* ne legyen nagyítás */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* csak alap árnyék maradjon */
+  cursor: default;              /* ne legyen kattintható */
+}
+
+/* Nagy kép hover és interakció eltávolítása */
+.main-small-wrapper .main-image:hover {
+  transform: none !important;   /* ne legyen nagyítás */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08); /* alap árnyék */
+  cursor: default;              /* ne legyen kattintható */
+}
+
+.product-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.product-link:hover .product {
+  transform: translateY(-6px);
+  transition: 0.3s ease;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+  cursor: pointer;
+}
+
+
+
+
+
+.product-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+/* Overlay */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.overlay span {
+  color: white;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* Hover effects */
+.product:hover img {
+  transform: scale(1.08);
+}
+
+.product:hover .overlay {
+  opacity: 1;
+}
+
+/* ===== Brand strip ===== *//* ===== Brand strip ===== *//* ===== Brand strip ===== *//* ===== Brand strip ===== *//* ===== Brand strip ===== *//* ===== Brand strip ===== *//* ===== Brand strip ===== *//* ===== Brand strip ===== */
+.brand-strip {
+  width: 100%;
+  overflow: hidden;
+  background: #fff;
+  padding: 10px 0;
+  box-sizing: border-box;
+}
+.brand-track {
+  display: flex;
+  gap: 15px;
+  width: max-content;
+  will-change: transform;
+}
+.brand-track img {
+  height: 80px; /* egységes magasság */
+  width: auto;
+  border-radius: 5px;
+  object-fit: contain;
+}
