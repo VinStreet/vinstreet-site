@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>Sneaker Box – VinStreet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Pirata+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="stylesheet.css">
+  <style>
+    /* Sidebar alap stílus + animáció */
+    #cart-sidebar, #sizeguide-sidebar {
+      position: fixed;
+      top: 0;
+      right: -350px;
+      width: 350px;
+      height: 100%;
+      background: #fff;
+      box-shadow: -3px 0 10px rgba(0,0,0,0.2);
+      padding: 20px;
+      transition: right 0.3s ease;
+      z-index: 1001;
+      overflow-y: auto;
+    }
+
+    #cart-sidebar.open, #sizeguide-sidebar.open {
+      right: 0;
+    }
+
+    #cart-sidebar h3, #sizeguide-sidebar h3 {
+      margin-top: 0;
+    }
+
+    #cart-sidebar button, #sizeguide-sidebar button {
+      margin-top: 20px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    /* Overlay */
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.2);
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    #overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Size Guide link stílus */
+    .size-guide {
+      display: inline-block;
+      margin-top: 10px;
+      text-decoration: underline;
+      color: black;
+      cursor: pointer;
+    }
+
+    /* Méretválasztás gombok stílusa */
+    .size-options button {
+      margin: 5px 3px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    .size-options button.active {
+      background-color: #000;
+      color: #fff;
+    }
+    .size-options button:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    /* FAQ */
+    .faq-section {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 18px;
+      font-family: Arial, sans-serif;
+    }
+    .faq-section h2 {
+      font-size: 30px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .faq-subtitle {
+      font-size: 16px;
+      margin-bottom: 28px;
+      color: #555;
+    }
+    .faq-item {
+      margin-bottom: 14px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .faq-question {
+      width: 100%;
+      text-align: left;
+      padding: 13px 18px;
+      font-size: 16px;
+      cursor: pointer;
+      background: #f9f9f9;
+      border: none;
+      outline: none;
+    }
+    .faq-question:hover { background: #eee; }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      padding: 0 18px;
+      background: #fff;
+    }
+    .faq-answer p { margin: 13px 0; font-size: 14px; }
+    .faq-item.active .faq-answer { max-height: 180px; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <img src="images/logo2.png" alt="VinStreet Logo" class="logo">
+    <h1>VinStreet</h1>
+  </header>
+
+  <!-- TOP MENU -->
+  <nav class="top-menu">
+    <a href="index.html" class="menu-button">Home</a>
+    <a href="boxok.html" class="menu-button">MysteryBoxes</a>
+    <div class="dropdown">
+      <button class="menu-button">Info ▼</button>
+      <div class="dropdown-content">
+        <a href="authenticity.html">Authenticity</a>
+        <a href="sizingandcondition.html">Sizing / Condition</a>
+        <a href="returns.html">Returns</a>
+        <a href="contact.html">Contact</a>
+        <a href="shipping.html">Shipping</a>
+      </div>
+    </div>
+    <button id="cart-button" class="menu-button">🛒 Cart</button>
+  </nav>
+
+  <!-- Overlay -->
+  <div id="overlay"></div>
+
+  <!-- SIDE BARS -->
+  <div id="cart-sidebar">
+    <h3>Cart Contents</h3>
+    <p>Currently empty.</p>
+    <button id="close-cart">Close</button>
+  </div>
+
+  <div id="sizeguide-sidebar">
+  <h3>Men's Size Guide</h3>
+  <table>
+    <tr>
+      <th>EU</th>
+      <th>US</th>
+      <th>UK</th>
+      <th>Foot Length (cm)</th>
+    </tr>
+    <tr><td>40</td><td>7</td><td>6.5</td><td>24.5</td></tr>
+    <tr><td>41</td><td>8</td><td>7</td><td>25.4</td></tr>
+    <tr><td>42</td><td>8.5</td><td>7.5</td><td>25.8</td></tr>
+    <tr><td>43</td><td>9</td><td>8.5</td><td>26.7</td></tr>
+    <tr><td>44</td><td>10</td><td>9.5</td><td>27.5</td></tr>
+    <tr><td>45</td><td>10.5</td><td>10</td><td>27.9</td></tr>
+    <tr><td>46</td><td>11</td><td>10.5</td><td>28.3</td></tr>
+  </table>
+  <button id="close-sizeguide">Bezárás</button>
+</div>
+
+  <!-- MAIN PRODUCT -->
+ <main>
+  <!-- Sneakerbox container -->
+  <div class="product-container-sneakerbox">
+    <!-- Bal oldal: fő kép + kis képek -->
+    <div class="main-small-wrapper main-small-wrapper-fix">
+      <img id="mainImage" src="images/sneakerbox/plus3.png" alt="Sneaker Box" class="main-image">
+      <div class="small-images">
+        <img src="images/sneakerbox/jordanunc.png" alt="Side 1" class="small-img">
+        <img src="images/sneakerbox/1.png" alt="Side 2" class="small-img">
+      </div>
+    </div>
+
+    <!-- Jobb oldal: termék részletek -->
+    <div class="product-details-block">
+      <h2 class="product-title">Sneaky Box</h2>
+      <p class="price">349,00 RON</p>
+
+      <p class="shipping-info">
+        Taxes included. <a href="shipping.html" class="shipping-link">Shipping</a> calculated at checkout.
+      </p>
+
+      <div class="size-options">
+        <button>40</button>
+        <button>41</button>
+        <button>42</button>
+        <button>43</button>
+        <button>44</button>
+        <button>45</button>
+        <button>46</button>
+        <a href="#" id="open-sizeguide" class="size-guide">Size Guide</a>
+      </div>
+
+      <button class="add-to-cart">Add to Cart</button>
+
+      <!-- Accordion -->
+      <div class="accordion-container">
+        <div class="accordion-item">
+          <button class="accordion-button">Description <span class="accordion-arrow">▼</span></button>
+          <div class="accordion-content">
+            <p>This mystery box includes a unique pair of vintage sneakers. Choose your size and enjoy the surprise!</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-button">Authenticity <span class="accordion-arrow">▼</span></button>
+          <div class="accordion-content">
+            <p>All sneakers are 100% authentic, verified by our team.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-button">Condition <span class="accordion-arrow">▼</span></button>
+          <div class="accordion-content">
+            <p>New or sometimes rarely used, quality-checked.</p>
+          </div>
+        </div>
+      </div>
+    </div> <!-- /.product-details-block -->
+  </div> <!-- /.product-container-sneakerbox -->
+
+  <!-- WISH NOTE: mindig sneakerbox alatt, középre -->
+  <div class="wish-note">
+    <p class="wish-title">One box. One shoe. One vibe.</p>
+    <p class="wish-text">Tell us your preferred brand or style at checkout.</p>
+  </div>
+</main>
+
+  <!-- Brand strip -->
+  <section class="brand-strip">
+  <div class="brand-track">
+    <img src="images/brand/p1.png" alt="Nike">
+    <img src="images/brand/p2.png" alt="Nike" class="NNN">
+    <img src="images/brand/p3.png" alt="Nike">
+    <img src="images/brand/p4.png" alt="Nike">
+    <img src="images/brand/p5.png" alt="Nike">
+    <img src="images/brand/p7.png" alt="Nike" class="NNM">
+    <img src="images/brand/p8.png" alt="Nike" class="NNP">
+    <img src="images/brand/p9.png" alt="Nike" class="NNO">
+    <img src="images/brand/p10.png" alt="Nike">
+    <img src="images/brand/p6.png" alt="Nike">
+
+    <!-- duplikáljuk a folyamatosság miatt -->
+    <img src="images/brand/p1.png" alt="Nike">
+    <img src="images/brand/p2.png" alt="Nike" class="NNN">
+    <img src="images/brand/p3.png" alt="Nike">
+    <img src="images/brand/p4.png" alt="Nike">
+    <img src="images/brand/p5.png" alt="Nike">
+    <img src="images/brand/p7.png" alt="Nike" class="NNM">
+    <img src="images/brand/p8.png" alt="Nike" class="NNP">
+    <img src="images/brand/p9.png" alt="Nike" class="NNO">
+    <img src="images/brand/p10.png" alt="Nike">
+    <img src="images/brand/p6.png" alt="Nike">
+	
+	<!-- triplikáljuk a folyamatosság miatt -->
+    <img src="images/brand/p1.png" alt="Nike">
+    <img src="images/brand/p2.png" alt="Nike" class="NNN">
+    <img src="images/brand/p3.png" alt="Nike">
+    <img src="images/brand/p4.png" alt="Nike">
+    <img src="images/brand/p5.png" alt="Nike">
+    <img src="images/brand/p7.png" alt="Nike" class="NNM">
+    <img src="images/brand/p8.png" alt="Nike" class="NNP">
+    <img src="images/brand/p9.png" alt="Nike" class="NNO">
+    <img src="images/brand/p10.png" alt="Nike">
+    <img src="images/brand/p6.png" alt="Nike">
+  </div>
+</section>
+
+<!-- FAQ -->
+  <section class="faq-section">
+    <h2>FAQ's</h2>
+    <p class="faq-subtitle">Shop with complete confidence</p>
+    <div class="faq-item">
+      <button class="faq-question">Do you offer returns?</button>
+      <div class="faq-answer"><p>Yes, we accept returns within 14 days. Items must be in original condition.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question">How long does shipping take?</button>
+      <div class="faq-answer"><p>Shipping usually takes 2-5 business days, depending on your location.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question">Do you offer Europe-wide shipping?</button>
+      <div class="faq-answer"><p>Yes, we ship to most European countries. Shipping fees may vary.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question">Are the pieces Authentic?</button>
+      <div class="faq-answer"><p>All pieces are 100% authentic and verified by our team.</p></div>
+    </div>
+  </section>
+
+<!-- Quality sections -->
+  <section class="quality-section">
+    <h3>Quality Check</h3>
+    <p class="quality-text">
+      Every piece is carefully inspected before shipping. We check authenticity, condition,
+      stitching, and overall wear to make sure you receive a quality item.
+    </p>
+    <div class="quality-images">
+      <img src="images/sneakerbox/qualitycheck/1.png">
+      <img src="images/sneakerbox/qualitycheck/2.png">
+      <img src="images/sneakerbox/qualitycheck/3.png">
+      <img src="images/sneakerbox/qualitycheck/4.png">
+      <img src="images/sneakerbox/qualitycheck/5.png">
+      <img src="images/sneakerbox/qualitycheck/6.png">
+    </div>
+  </section>
+
+<!-- Footer -->
+  <section class="footer-links">
+    <a href="sizingandcondition.html">SIZING / CONDITION</a>
+    <a href="terms.html">TERMS & CONDITIONS</a>
+    <a href="#">PRIVACY POLICY</a>
+    <a href="shipping.html">SHIPPING POLICY</a>
+    <a href="#">REFUND POLICY</a>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 VinStreet</p>
+    <p>Contact: info@vinstreet.eu</p>
+  </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // ----------------- OVERLAY -----------------
+  const overlay = document.getElementById('overlay');
+
+  // ----------------- KOSÁR SIDEBAR -----------------
+  const cartButton = document.getElementById('cart-button');
+  const cartSidebar = document.getElementById('cart-sidebar');
+  const closeCart = document.getElementById('close-cart');
+  if (cartButton && cartSidebar && closeCart && overlay) {
+    cartButton.addEventListener('click', () => {
+      cartSidebar.classList.add('open');
+      overlay.classList.add('active');
+    });
+    closeCart.addEventListener('click', () => {
+      cartSidebar.classList.remove('open');
+      overlay.classList.remove('active');
+    });
+    overlay.addEventListener('click', () => {
+      cartSidebar.classList.remove('open');
+      overlay.classList.remove('active');
+    });
+  }
+
+  // ----------------- MÉRETGOMBOK + SIZE GUIDE -----------------
+  const sizeButtons = document.querySelectorAll('.size-options button');
+  const inStock = ['40','41','42','43','44'];
+  const sizeGuideButton = document.getElementById('open-sizeguide');
+  const sizeGuideSidebar = document.getElementById('sizeguide-sidebar');
+  const closeSizeGuide = document.getElementById('close-sizeguide');
+
+  if (sizeButtons.length) {
+    sizeButtons.forEach(btn => {
+      const val = btn.textContent.trim();
+      if (!inStock.includes(val)) {
+        btn.disabled = true;
+        btn.style.cursor = 'not-allowed';
+        btn.style.opacity = '0.5';
+      }
+      btn.addEventListener('click', () => {
+        if (!btn.disabled) {
+          sizeButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        }
+      });
+    });
+  }
+
+  if (sizeGuideButton && sizeGuideSidebar && closeSizeGuide && overlay) {
+    sizeGuideButton.addEventListener('click', () => {
+      sizeGuideSidebar.classList.add('open');
+      overlay.classList.add('active');
+    });
+    closeSizeGuide.addEventListener('click', () => {
+      sizeGuideSidebar.classList.remove('open');
+      overlay.classList.remove('active');
+    });
+    overlay.addEventListener('click', () => {
+      sizeGuideSidebar.classList.remove('open');
+      overlay.classList.remove('active');
+    });
+  }
+
+  // ----------------- ACCORDION -----------------
+  const accButtons = document.querySelectorAll('.accordion-button');
+  if (accButtons.length) {
+    accButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('active');
+        const content = btn.nextElementSibling;
+        if (content) {
+          if (content.style.maxHeight) content.style.maxHeight = null;
+          else content.style.maxHeight = content.scrollHeight + "px";
+        }
+      });
+    });
+  }
+
+  // ----------------- TOP MENU SCROLL -----------------
+  const topMenu = document.querySelector('.top-menu');
+  if (topMenu) {
+    let lastScroll = window.scrollY;
+    window.addEventListener('scroll', () => {
+      let currentScroll = window.scrollY;
+      if (currentScroll < lastScroll && currentScroll > 70) {
+        topMenu.style.position = 'fixed';
+        topMenu.style.top = '0';
+        topMenu.style.left = '0';
+        topMenu.style.width = '100%';
+        topMenu.style.zIndex = '1000';
+        topMenu.style.transition = 'top 0.3s';
+      } else {
+        topMenu.style.position = 'absolute';
+        topMenu.style.top = '70px';
+      }
+      lastScroll = currentScroll;
+    });
+  }
+
+  // ----------------- QUALITY IMAGES OVERLAY -----------------
+  const qualityImages = document.querySelectorAll('.quality-images img');
+  const imageOverlay = document.getElementById('image-overlay');
+  const overlayImg = imageOverlay ? imageOverlay.querySelector('img') : null;
+  if (qualityImages.length && overlayImg) {
+    qualityImages.forEach(img => {
+      img.addEventListener('click', () => {
+        overlayImg.src = img.src;
+        imageOverlay.style.display = 'flex';
+      });
+    });
+    imageOverlay.addEventListener('click', () => {
+      imageOverlay.style.display = 'none';
+    });
+  }
+
+  // ----------------- FAQ -----------------
+  const faqBtns = document.querySelectorAll('.faq-question');
+  if (faqBtns.length) {
+    faqBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        if (item) item.classList.toggle('active');
+      });
+    });
+  }
+
+  // ----------------- BRAND STRIP SCROLL -----------------
+  const track = document.getElementById('brandTrack');
+  if (track) {
+    let pos = 0;
+    const speed = 1;
+    function scrollTrack() {
+      pos -= speed;
+      if (pos <= -track.scrollWidth / 2) pos = 0;
+      track.style.transform = `translateX(${pos}px)`;
+      requestAnimationFrame(scrollTrack);
+    }
+    scrollTrack();
+  }
+
+  // ----------------- MAIN + FIRST SMALL IMAGE HOVER -----------------
+  const mainImage = document.getElementById('mainImage');
+  const smallImages = document.querySelectorAll('.small-img');
+  const hoverData = [
+    ['images/sneakerbox/dunkk.png', 'images/sneakerbox/plus3.png'],   // fő kép
+    ['images/sneakerbox/trav1.png', 'images/sneakerbox/jordanunc.png'] // első kiskép
+  ];
+
+  if (mainImage && hoverData[0]) {
+    mainImage.addEventListener('mouseenter', () => { mainImage.src = hoverData[0][0]; });
+    mainImage.addEventListener('mouseleave', () => { mainImage.src = hoverData[0][1]; });
+  }
+
+  if (smallImages.length && hoverData[1]) {
+    const firstSmall = smallImages[0];
+    firstSmall.addEventListener('mouseenter', () => { firstSmall.src = hoverData[1][0]; });
+    firstSmall.addEventListener('mouseleave', () => { firstSmall.src = hoverData[1][1]; });
+  }
+
+  // ----------------- AUTO CHANGING SECOND SMALL IMAGE -----------------
+  const autoImg = smallImages[1];
+  if (autoImg) {
+    const images = [
+      "images/sneakerbox/vapor.png",
+      "images/sneakerbox/shox.png",
+      "images/sneakerbox/2.png",
+      "images/sneakerbox/1.png"
+    ];
+
+    let index = 0;
+    let interval = setInterval(changeImage, 2500);
+
+    function changeImage() {
+      index = (index + 1) % images.length;
+      autoImg.src = images[index];
+    }
+
+    autoImg.addEventListener('mouseenter', () => clearInterval(interval));
+    autoImg.addEventListener('mouseleave', () => interval = setInterval(changeImage, 2500));
+  }
+
+});
+</script>
+
+<!-- Nagyított kép overlay -->
+<div id="image-overlay"><img src="" alt="Preview"></div>
+
+</body>
+</html>

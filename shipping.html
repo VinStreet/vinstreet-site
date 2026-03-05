@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VinStreet – Shipping</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Pirata+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body class="shipping-page">
+
+  <!-- HEADER -->
+  <header>
+    <img src="images/logo2.png" alt="VinStreet Logo" class="logo">
+    <h1>VinStreet</h1>
+  </header>
+
+  <!-- TOP MENU -->
+  <div class="top-menu">
+    <a href="index.html" class="menu-button">Home</a>
+    <a href="boxok.html" class="menu-button">MysteryBoxes</a>
+
+    <div class="dropdown">
+      <button class="menu-button">Info ▼</button>
+      <div class="dropdown-content">
+        <a href="authenticity.html">Authenticity</a>
+        <a href="sizingandcondition.html">Sizing / Condition</a>
+        <a href="returns.html">Returns</a>
+        <a href="contact.html">Contact</a>
+        <a href="shipping.html">Shipping</a>
+      </div>
+    </div>
+
+    <button id="cart-button" class="menu-button">🛒 Cart</button>
+  </div>
+
+  <!-- KOSÁR SIDEBAR -->
+  <div id="cart-sidebar">
+    <h3>Cart Contents</h3>
+    <p>Currently empty.</p>
+    <button id="close-cart">Close</button>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="boxes-page">
+    <section class="product-info centered-text">
+      <h2>SHIPPING</h2>
+
+      <p>As you know, all our mystery boxes are hand picked and curated individually and are not pre-packed, meaning dispatch time takes a little longer to ensure we create the perfect assortment of vintage pieces for you.</p>
+      <p>Shipping times may vary based on size and stock availability.</p>
+
+      <h3>Romania Shipping:</h3>
+      <p>Standard domestic shipping - 1–3 working days</p>
+
+      <h3>Europe Shipping:</h3>
+      <p>Standard European shipping - 3–6 working days</p>
+
+      <p><em>(Import duty fees and taxes for European orders may apply, the buyer is responsible for these.)</em></p>
+    </section>
+  </main>
+
+  <!-- FOOTER LINKS -->
+  <section class="footer-links">
+  <a href="sizingandcondition.html">SIZING / CONDITION</a>
+  <a href="terms.html">TERMS & CONDITIONS</a>
+  <a href="privacy.html">PRIVACY POLICY</a>
+  <a href="shipping.html">SHIPPING POLICY</a>
+  <a href="refund.html">REFUND POLICY</a>
+</section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 VinStreet</p>
+    <p>Contact: info@vinstreet.eu</p>
+  </footer>
+
+  <div id="overlay"></div>
+<!-- JS -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const overlay = document.getElementById('overlay');
+
+  // KOSÁR SIDEBAR
+  const cartButton = document.getElementById('cart-button');
+  const cartSidebar = document.getElementById('cart-sidebar');
+  const closeCart = document.getElementById('close-cart');
+
+  if (cartButton && cartSidebar && closeCart && overlay) {
+    cartButton.addEventListener('click', () => {
+      cartSidebar.classList.add('open');
+      overlay.classList.add('active');
+    });
+    closeCart.addEventListener('click', () => {
+      cartSidebar.classList.remove('open');
+      overlay.classList.remove('active');
+    });
+
+    overlay.addEventListener('click', () => {
+      cartSidebar.classList.remove('open');
+      overlay.classList.remove('active');
+    });
+  }
+
+  // ACCORDION
+  const accButtons = document.querySelectorAll('.accordion-button');
+  accButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.classList.toggle('active');
+      const content = btn.nextElementSibling;
+      if (content.style.maxHeight) content.style.maxHeight = null;
+      else content.style.maxHeight = content.scrollHeight + "px";
+    });
+  });
+
+  // TOP MENU SCROLL EFFEKT
+  const topMenu = document.querySelector('.top-menu');
+  if (topMenu) {
+    let lastScroll = window.scrollY;
+    window.addEventListener('scroll', () => {
+      let currentScroll = window.scrollY;
+      if (currentScroll < lastScroll && currentScroll > 70) {
+        topMenu.style.position = 'fixed';
+        topMenu.style.top = '0';
+        topMenu.style.left = '0';
+        topMenu.style.width = '100%';
+        topMenu.style.zIndex = '1000';
+        topMenu.style.transition = 'top 0.3s';
+      } else {
+        topMenu.style.position = 'absolute';
+        topMenu.style.top = '70px';
+      }
+      lastScroll = currentScroll;
+    });
+  }
+});
+</script>
+
+</body>
+</html>

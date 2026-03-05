@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>VinStreet – Mystery Boxes</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Pirata+One&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <img src="images/logo2.png" alt="VinStreet Logo" class="logo">
+    <h1>VinStreet</h1>
+  </header>
+
+  <!-- TOP MENU -->
+  <div class="top-menu">
+    <a href="index.html" class="menu-button">Home</a>
+    <a href="boxok.html" class="menu-button">MysteryBoxes</a>
+
+    <div class="dropdown">
+      <button class="menu-button">Info ▼</button>
+      <div class="dropdown-content">
+        <a href="authenticity.html">Authenticity</a>
+        <a href="sizingandcondition.html">Sizing / Condition</a>
+        <a href="returns.html">Returns</a>
+        <a href="contact.html">Contact</a>
+        <a href="shipping.html">Shipping</a>
+      </div>
+    </div>
+
+    <button id="cart-button" class="menu-button">🛒 Cart</button>
+  </div>
+
+  <!-- KOSÁR SIDEBAR -->
+  <div id="cart-sidebar">
+    <h3>Cart Contents</h3>
+    <p>Currently empty.</p>
+    <button id="close-cart">Close</button>
+</div>
+  
+
+  <!-- MAIN -->
+  <main class="boxes-page">
+    <section class="products">
+      
+	  <a href="sneakerbox.html" class="product-link">
+  <div class="product">
+    <div class="image-wrapper">
+      <img src="images/sneakerbox/jordanunc.png" alt="Sneaker Box">
+      <div class="overlay">
+        <span>View Product</span>
+      </div>
+    </div>
+    <h3>Sneaky Box</h3>
+    <p>349,00 Ron</p>
+  </div>
+</a>
+
+<a href="quarterzipbox.html" class="product-link">
+  <div class="product">
+    <div class="image-wrapper">
+      <img src="images/quarterzipbox/kotott2.png" alt="Quarter-Zip Box">
+      <div class="overlay">
+        <span>View Product</span>
+      </div>
+    </div>
+    <h3>Quarter-Zip Box</h3>
+    <p>299,00 Ron</p>
+  </div>
+</a>
+
+<a href="tshirtbox.html" class="product-link">
+  <div class="product">
+    <div class="image-wrapper">
+      <img src="images/tshirtbox/stussy.png" alt="T-Shirt Box">
+      <div class="overlay">
+        <span>View Product</span>
+      </div>
+    </div>
+    <h3>T-Shirt Box</h3>
+    <p>199,00 Ron</p>
+  </div>
+</a>
+ 
+    </section>
+  </main>
+	
+	
+	 <!-- Brandek -->
+<section class="brand-strip">
+  <div class="brand-track">
+    <img src="images/brand/p1.png" alt="Nike">
+    <img src="images/brand/p2.png" alt="Nike" class="NNN">
+    <img src="images/brand/p3.png" alt="Nike">
+    <img src="images/brand/p4.png" alt="Nike">
+    <img src="images/brand/p5.png" alt="Nike">
+    <img src="images/brand/p7.png" alt="Nike" class="NNM">
+    <img src="images/brand/p8.png" alt="Nike" class="NNP">
+    <img src="images/brand/p9.png" alt="Nike" class="NNO">
+    <img src="images/brand/p10.png" alt="Nike">
+    <img src="images/brand/p6.png" alt="Nike">
+
+    <!-- duplikáljuk a folyamatosság miatt -->
+    <img src="images/brand/p1.png" alt="Nike">
+    <img src="images/brand/p2.png" alt="Nike" class="NNN">
+    <img src="images/brand/p3.png" alt="Nike">
+    <img src="images/brand/p4.png" alt="Nike">
+    <img src="images/brand/p5.png" alt="Nike">
+    <img src="images/brand/p7.png" alt="Nike" class="NNM">
+    <img src="images/brand/p8.png" alt="Nike" class="NNP">
+    <img src="images/brand/p9.png" alt="Nike" class="NNO">
+    <img src="images/brand/p10.png" alt="Nike">
+    <img src="images/brand/p6.png" alt="Nike">
+	
+	<!-- trplikáljuk a folyamatosság miatt -->
+    <img src="images/brand/p1.png" alt="Nike">
+    <img src="images/brand/p2.png" alt="Nike" class="NNN">
+    <img src="images/brand/p3.png" alt="Nike">
+    <img src="images/brand/p4.png" alt="Nike">
+    <img src="images/brand/p5.png" alt="Nike">
+    <img src="images/brand/p7.png" alt="Nike" class="NNM">
+    <img src="images/brand/p8.png" alt="Nike" class="NNP">
+    <img src="images/brand/p9.png" alt="Nike" class="NNO">
+    <img src="images/brand/p10.png" alt="Nike">
+    <img src="images/brand/p6.png" alt="Nike">
+  </div>
+</section>
+
+<main> <!-- Hero -->
+	<section class="herobox"></section>
+	</main>
+	
+  <!-- FOOTER LINKS -->
+  <section class="footer-links">
+  <a href="sizingandcondition.html">SIZING / CONDITION</a>
+  <a href="terms.html">TERMS & CONDITIONS</a>
+  <a href="privacy.html">PRIVACY POLICY</a>
+  <a href="shipping.html">SHIPPING POLICY</a>
+  <a href="refund.html">REFUND POLICY</a>
+</section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 VinStreet</p>
+    <p>Contact: info@vinstreet.eu</p>
+  </footer>
+<div id="overlay"></div>
+  <!-- JS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+  const overlay = document.getElementById('overlay');
+
+  // KOSÁR SIDEBAR
+  const cartButton = document.getElementById('cart-button');
+  const cartSidebar = document.getElementById('cart-sidebar');
+  const closeCart = document.getElementById('close-cart');
+
+  if (cartButton && cartSidebar && closeCart && overlay) {
+    cartButton.addEventListener('click', () => {
+      cartSidebar.classList.add('open');
+      overlay.classList.add('active');
+    });
+    closeCart.addEventListener('click', () => {
+      cartSidebar.classList.remove('open');
+      overlay.classList.remove('active');
+    });
+
+    overlay.addEventListener('click', () => {
+      cartSidebar.classList.remove('open');
+      overlay.classList.remove('active');
+    });
+  }
+
+  // ACCORDION
+  const accButtons = document.querySelectorAll('.accordion-button');
+  accButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.classList.toggle('active');
+      const content = btn.nextElementSibling;
+      if (content.style.maxHeight) content.style.maxHeight = null;
+      else content.style.maxHeight = content.scrollHeight + "px";
+    });
+  });
+
+  // TOP MENU SCROLL EFFEKT
+  const topMenu = document.querySelector('.top-menu');
+  if (topMenu) {
+    let lastScroll = window.scrollY;
+    window.addEventListener('scroll', () => {
+      let currentScroll = window.scrollY;
+      if (currentScroll < lastScroll && currentScroll > 70) {
+        topMenu.style.position = 'fixed';
+        topMenu.style.top = '0';
+        topMenu.style.left = '0';
+        topMenu.style.width = '100%';
+        topMenu.style.zIndex = '1000';
+        topMenu.style.transition = 'top 0.3s';
+      } else {
+        topMenu.style.position = 'absolute';
+        topMenu.style.top = '70px';
+      }
+      lastScroll = currentScroll;
+    });
+  }
+});
+	// BRAND STRIP
+const track = document.getElementById('brandTrack');
+let pos = 0;
+const speed = 1; // px per frame
+
+function scrollTrack() {
+  pos -= speed;
+  if (pos <= -track.scrollWidth / 2) pos = 0;
+  track.style.transform = `translateX(${pos}px)`;
+  requestAnimationFrame(scrollTrack);
+}
+
+scrollTrack();
+  </script>
+
+</body>
+</html>
+
+
